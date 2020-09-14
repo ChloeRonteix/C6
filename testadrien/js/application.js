@@ -1,152 +1,63 @@
-const url = "https://api.github.com/users/joz84/repos";
-
-const groupByLanguage = (data) => {
-  key = "language";
-  const result = data.reduce((sum, current) => {
-    if(!sum[current[key]]) {
-      sum[current[key]] = 0;
+Highcharts.chart('container', {
+  chart: {
+    type: 'column'
+  },
+  title: {
+    text: 'Prix moyen immobilier : Villes les moins chères'
+  },
+  subtitle: {
+    text: 'Source: https://www.meilleursagents.com/prix-immobilier/'
+  },
+  xAxis: {
+    categories: [
+      'Saint-Etienne',
+      'Limoges',
+      'Mulhouse',
+      'Brest',
+      'Le Mans',
+      'Perpignan',
+      'Besançon',
+      'Clermont-Ferrand',
+      'Metz',
+      'Reims'
+    ],
+    crosshair: true
+  },
+  yAxis: {
+    min: 0,
+    title: {
+      text: 'Rainfall (mm)'
     }
-    sum[current[key]] += 1;
-    return sum;
-  },{});
-  const solutions = Object.keys(result).map((key) => {
-    return { name: key, y: result[key] }
-  });
-  return solutions
-};
+  },
+  tooltip: {
+    headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+    pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+      '<td style="padding:0"><b>{point.y:.1f} </b></td></tr>',
+    footerFormat: '</table>',
+    shared: true,
+    useHTML: true
+  },
+  plotOptions: {
+    column: {
+      pointPadding: 0.2,
+      borderWidth: 0
+    }
+  },
+  series: [{
+    name: 'Prix m2 moyen appartement (€)',
+    data: [1044,1397,1091,1827,1391,1454,1995,1896,1790,2255]
 
-const sizeByDate = (data) => {
-  return data.map( current => [Date.parse(current.created_at), current.size]).sort();
-};
+  }, {
+    name: 'Prix m2 moyen maison (€)',
+    data: [1587,1593,1637,1795,1730,1759,2095,2129,2034,2456]
 
-Highcharts.getJSON(url,
-  function (data) {
-    console.dir(data)
-    const firstFormatedData = sizeByDate(data);
-    const secondFormatedData = groupByLanguage(data);
-    console.log(secondFormatedData)
-    // var averages = [
-    //     [1246406400000, 21.5],
-    //     [1246492800000, 22.1],
-    //     [1246579200000, 23],
-    //     [1246665600000, 23.8],
-    //     [1246752000000, 21.4],
-    //     [1246838400000, 21.3],
-    //     [1246924800000, 18.3],
-    //     [1247011200000, 15.4],
-    //     [1247097600000, 16.4],
-    //     [1247184000000, 17.7],
-    //     [1247270400000, 17.5],
-    //     [1247356800000, 17.6],
-    //     [1247443200000, 17.7],
-    //     [1247529600000, 16.8],
-    //     [1247616000000, 17.7],
-    //     [1247702400000, 16.3],
-    //     [1247788800000, 17.8],
-    //     [1247875200000, 18.1],
-    //     [1247961600000, 17.2],
-    //     [1248048000000, 14.4],
-    //     [1248134400000, 13.7],
-    //     [1248220800000, 15.7],
-    //     [1248307200000, 14.6],
-    //     [1248393600000, 15.3],
-    //     [1248480000000, 15.3],
-    //     [1248566400000, 15.8],
-    //     [1248652800000, 15.2],
-    //     [1248739200000, 14.8],
-    //     [1248825600000, 14.4],
-    //     [1248912000000, 15],
-    //     [1248998400000, 13.6]
-    //   ];
+  }, {
+    name: 'Loyer 100 m2 moyen appartement (€)',
+    data: [760,830,850,840,810,840,940,1000,970,980]
 
+  }, {
+    name: 'Prévisions (%)',
+    data: [2,4,-3,4,-3,1,1,-6,6,4]
 
-    Highcharts.chart('graph1', {
-
-      title: {
-        text: 'July temperatures'
-      },
-
-      xAxis: {
-        type: 'datetime',
-        accessibility: {
-          rangeDescription: 'Range: Jul 1st 2009 to Jul 31st 2009.'
-        }
-      },
-
-      yAxis: {
-        title: {
-          text: null
-        }
-      },
-
-      tooltip: {
-        crosshairs: true,
-        shared: true,
-        valueSuffix: '°C'
-      },
-
-      series: [{
-        name: 'Temperature',
-        data: firstFormatedData,
-        zIndex: 1,
-        marker: {
-          fillColor: 'white',
-          lineWidth: 2,
-          lineColor: Highcharts.getOptions().colors[0]
-        }
-      }]
-    });
-
-
-    Highcharts.chart('graph2', {
-      chart: {
-        plotBackgroundColor: null,
-        plotBorderWidth: null,
-        plotShadow: false,
-        type: 'pie'
-      },
-      title: {
-        text: 'Browser market shares in January, 2018'
-      },
-      tooltip: {
-        pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
-      },
-      accessibility: {
-        point: {
-          valueSuffix: '%'
-        }
-      },
-      plotOptions: {
-        pie: {
-          allowPointSelect: true,
-          cursor: 'pointer',
-          dataLabels: {
-            enabled: false
-          },
-          showInLegend: true
-        }
-      },
-      series: [{
-        name: 'Brands',
-        colorByPoint: true,
-        data: secondFormatedData
-      }]
-    });
-
-  }
-);
-
-
-
-
-
-const graphBoxes = document.querySelectorAll(".graph-box");
-
-graphBoxes.forEach((graphBoxe) => {
-  const graph = graphBoxe.querySelector(".graph");
-  graphBoxe.addEventListener("click", (event) => {
-    graph.classList.toggle("d-none");
-  })
+  }]
 });
-
-
