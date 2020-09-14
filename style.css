@@ -1,4 +1,8 @@
 
+head {
+    background: url(hong-kong-864884_1920.jpg)
+}
+
 .footer {
     background: #F4F4F4;
     display: flex;
@@ -25,6 +29,7 @@
   .footer .fa-heart {
     color: #D23333;
   }
+
 
 #container {
     height: 400px; 
