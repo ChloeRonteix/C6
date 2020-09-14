@@ -9,7 +9,7 @@ Highcharts.chart("container", {
     },
     subtitle: {
     text:
-        'Source: '
+        'Source: SeLoger.com'
     },
     xAxis: {
     type: "category",
